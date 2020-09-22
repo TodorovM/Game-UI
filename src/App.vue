@@ -1,18 +1,23 @@
 <template>
   <div id="app">
-    <Inventory :items='items' :size="size" />
+    <div class="container">
+      <Inventory :items='items' :size="size" />
+      <Details/>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
 import Inventory from './components/Inventory'
+import Details from './components/Details'
 
 export default {
 
   name: 'App',
   components: {
     Inventory,
+    Details
   },
   data() {
     return {
@@ -54,8 +59,10 @@ export default {
   text-align center
   color #2c3e50
   height 100vh
-  width 100vh
   display flex
   justify-content center
   align-items center
+  flex-direction column
+  .container
+    display flex
 </style>

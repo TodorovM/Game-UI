@@ -35,6 +35,8 @@ import Item from "./Item";
 <style lang="stylus" scoped>
     .inventory
         display grid
-        height 450px
+        height 500px
         grid-gap 25px
+        border 1px solid rgba(0, 0, 0, 0.7)
+        overflow-y scroll
 </style>
