@@ -1,8 +1,11 @@
 <template>
   <div id="app">
-    <div class="container">
-      <Inventory :items='items' :size="size" />
-      <Details/>
+    <div class="container column">
+      <Tabs :tabs="categories" />
+      <div class="container">
+        <Inventory :items='items' :size="size" />
+        <Details/>
+      </div>
     </div>
     <Log/>
   </div>
@@ -13,6 +16,7 @@ import { mapState, mapActions } from "vuex";
 import Inventory from './components/Inventory'
 import Details from './components/Details'
 import Log from "./components/Log";
+import Tabs from './components/Tabs'
 
 export default {
 
@@ -20,11 +24,13 @@ export default {
   components: {
     Inventory,
     Details,
-    Log
+    Log,
+    Tabs
   },
   data() {
     return {
       items: [],
+      categories: [],
       size: {}
     }
   },
@@ -37,6 +43,9 @@ export default {
     ...mapActions([ 'setData' ])
   },
   mounted () {
+    this.categories = this.data.inventoryitems
+                      .map(el => el.type)
+                      .filter((el, index, self) => self.indexOf(el) === index)
     this.size = {
       width: this.data.inventoryview.width,
       height: this.data.inventoryview.height
@@ -67,5 +76,7 @@ export default {
   flex-direction column
   .container
     display flex
-    margin 0 auto
+    margin 0 auto 
+    &.column
+      flex-direction column
 </style>
