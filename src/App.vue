@@ -4,6 +4,7 @@
       <Inventory :items='items' :size="size" />
       <Details/>
     </div>
+    <Log/>
   </div>
 </template>
 
@@ -11,13 +12,15 @@
 import { mapState, mapActions } from "vuex";
 import Inventory from './components/Inventory'
 import Details from './components/Details'
+import Log from "./components/Log";
 
 export default {
 
   name: 'App',
   components: {
     Inventory,
-    Details
+    Details,
+    Log
   },
   data() {
     return {
@@ -60,9 +63,9 @@ export default {
   color #2c3e50
   height 100vh
   display flex
-  justify-content center
-  align-items center
+  justify-content space-between
   flex-direction column
   .container
     display flex
+    margin 0 auto
 </style>
