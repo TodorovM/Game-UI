@@ -1,13 +1,23 @@
 <template>
-    <div :class="['inventory-item', itemData.rarity === 'white' ? 'light' : '']" :style="style" draggable="true">
+    <div 
+    v-if="itemData" 
+    :class="['inventory-item', {light: light,  selected: selected}]" 
+    :style="style" draggable="true" 
+    >
         <h1 class="item-id"> {{ itemData.type[0] }}{{ itemData.id }} </h1>
         <div class="item-name"> {{ itemData.titleid }}  </div>
     </div>
 </template>
 
 <script>
+
     export default {
         name: 'Item',
+        data() {
+            return {
+                selected: false
+            }
+        },
         props: {
             itemData: {
                 type: Object
@@ -20,7 +30,13 @@
                     gridColumnStart: this.itemData.positionX,
                     gridRowStart: this.itemData.positionY
                 }
+            },
+            light(){
+                return this.itemData.rarity === 'white';
             }
+        },
+        methods: {
+            
         },
     }
 </script>
@@ -33,8 +49,12 @@
         box-shadow inset 0 0 10px black
         display flex
         flex-direction column
+        &:hover
+            animation pulse 1s linear infinite
         &.light .item-id
             color black
+        &.selected
+            border-width 5px
         .item-id
             text-transform uppercase
             color white
@@ -49,4 +69,15 @@
             display flex
             justify-content center
             align-items center
+
+
+    @keyframes pulse 
+        0%
+            box-shadow inset 0 0 10px black 
+        50%
+            box-shadow inset 0 0 0 black  
+        100%
+            box-shadow inset 0 0 10px black
+        
+    
 </style>

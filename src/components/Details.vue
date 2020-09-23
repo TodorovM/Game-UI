@@ -4,13 +4,14 @@
             <Item :itemData="item" />
         </div>
         <div class="item-details">
-            <p><strong>Rarity:</strong> {{ item.rarity }} </p>
-            <p><strong>Cost:</strong> {{ item.cost }} </p>
+            <p><strong>Rarity:</strong> {{ item ? item.rarity : 'none' }} </p>
+            <p><strong>Cost:</strong> {{ item ? item.cost : 0 }} </p>
         </div>
     </div>
 </template>
 
 <script>
+import EventBus from '../utils/event-bus'
 import Item from './Item'
     export default {
         name: 'Details',
@@ -19,22 +20,18 @@ import Item from './Item'
         },
         data() {
             return {
-                item: {
-                    cost: 5,
-                    id: 5,
-                    itemid: 5,
-                    positionX: 1,
-                    positionY: 1,
-                    rarity: "white",
-                    titleid: "Bronze knife",
-                    type: "weapon"
-                }
+                item: null
             }
         },
         methods: {
             fillData(item) {
                 this.item = item;
             }
+        },
+        mounted () {
+            EventBus.$on('item_hovered', (e) => {
+                this.fillData(e)
+            });
         },
     }
 </script>

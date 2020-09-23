@@ -17,6 +17,7 @@ import Inventory from './components/Inventory'
 import Details from './components/Details'
 import Log from "./components/Log";
 import Tabs from './components/Tabs'
+// import EventBus from './utils/event-bus'
 
 export default {
 

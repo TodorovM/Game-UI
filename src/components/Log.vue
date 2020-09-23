@@ -5,30 +5,19 @@
 </template>
 
 <script>
+    import EventBus from '../utils/event-bus'
     export default {
         name: 'Log',
         data() {
             return {
                 logs: [ ],
-                item: {
-                    cost: 5,
-                    id: 5,
-                    itemid: 5,
-                    positionX: 1,
-                    positionY: 1,
-                    rarity: "white",
-                    titleid: "Bronze knife",
-                    type: "weapon"
-                },
                 count: 0
             }
         },
         mounted () {
-            // setInterval(() => {
-            //     const message = this.count % 2 === 0 ? :`Item <span style="color:${this.item.rarity}">${this.item.id}</span> selected in the inventory`
-            //     this.logs.unshift(message);
-            //     this.count++
-            // }, 1000);
+            EventBus.$on('item_selected', e => {
+                this.logs.unshift(`Item <span style="color: ${e.rarity}" > <strong>${e.id}</strong> </span> selected in the inventory`)
+            })
         },
     }
 </script>
