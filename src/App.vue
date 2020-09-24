@@ -65,6 +65,9 @@ export default {
   padding 0
   margin 0
   box-sizing border-box
+::-webkit-scrollbar
+  width 0
+  height 0
 #app
   font-family 'Segoe UI', sans-serif
   -webkit-font-smoothing antialiased

@@ -38,7 +38,7 @@ import Item from './Item'
 
 <style lang="stylus" scoped>
     .details
-        width 300px
+        width 200px
         border 1px solid rgba(0, 0, 0, 0.7)
         display flex
         flex-direction column

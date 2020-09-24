@@ -72,11 +72,12 @@ import EventBus from '../utils/event-bus'
                                         return Math.abs(el - orig.position.y) < Math.abs(acc - orig.position.y) ? el : acc;
                                     });
                 const closestCol = arr
+                                    .filter(r => r.position.y === closestRow)
                                     .map(r => r.position.x)
                                     .reduce((acc, el) => {
                                         return Math.abs(el - orig.position.x) < Math.abs(acc - orig.position.x) ? el : acc;
                                     });
-
+                console.log(closestRow, closestCol)
                 return arr.find(i => i.position.y === closestRow && i.position.x === closestCol)
             },
             keyDown(e){
@@ -131,6 +132,7 @@ import EventBus from '../utils/event-bus'
                             break;
                         }
                     }
+                    console.log(closest)
                     if (closest) this.selectItem(closest.$el);
                 }
             },
