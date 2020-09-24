@@ -15,7 +15,11 @@
         name: 'Item',
         data() {
             return {
-                selected: false
+                selected: false,
+                position: {
+                    x: this.itemData.positionX,
+                    y: this.itemData.positionY
+                }
             }
         },
         props: {
@@ -27,17 +31,14 @@
             style() {
                 return {
                     background: `linear-gradient(to right, transparent, ${this.itemData.rarity}`,
-                    gridColumnStart: this.itemData.positionX,
-                    gridRowStart: this.itemData.positionY
+                    gridColumnStart: this.position.x,
+                    gridRowStart: this.position.y
                 }
             },
             light(){
                 return this.itemData.rarity === 'white';
             }
-        },
-        methods: {
-            
-        },
+        }
     }
 </script>
 

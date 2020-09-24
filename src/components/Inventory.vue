@@ -1,5 +1,13 @@
 <template>
-    <div class="inventory" :style="style" @mouseover="hover" @mousedown="select">
+    <div 
+        class="inventory" 
+        :style="style" 
+        @mouseover="hover" 
+        @mousedown="select" 
+        @keydown="keyDown" 
+        tabindex="0"
+        ref="inventory"
+    >
         <Item v-for="item in items" :key="item.id" :itemData="item" ref="item"/>
     </div>
 </template>
@@ -32,18 +40,93 @@ import EventBus from '../utils/event-bus'
         },
         methods: {
             hover(e) {
-                const item = this.$refs.item.find(item => item.$el === e.target.closest('.inventory-item'));
+                const item = this.$refs.item.find(i => i.$el === e.target.closest('.inventory-item'));
                 if (item) EventBus.$emit('item_hovered', item.itemData)
             },
             select(e){
-                this.$refs.item.forEach(item => item.selected = false);
-                const item = this.$refs.item.find(item => item.$el === e.target.closest('.inventory-item'));
+                this.selectItem(e.target.closest('.inventory-item'));
+            },
+            selectItem(inventoryItem) {
+                this.$refs.item.forEach(i => i.selected = false);
+                const item = this.$refs.item.find(i => i.$el === inventoryItem);
                 if (item) {
                     item.selected = true;
                     EventBus.$emit('item_selected', { id: item.itemData.id, rarity: item.itemData.rarity })
                 }
+            },
+            closest(arr, orig) {
+                const closestRow = arr
+                                    .map(r => r.position.y)
+                                    .reduce((acc, el) => {
+                                        return Math.abs(el - orig.position.y) < Math.abs(acc - orig.position.y) ? el : acc;
+                                    });
+                const closestCol = arr
+                                    .map(r => r.position.x)
+                                    .reduce((acc, el) => {
+                                        return Math.abs(el - orig.position.x) < Math.abs(acc - orig.position.x) ? el : acc;
+                                    });
+
+                return arr.find(i => i.position.y === closestRow && i.position.x === closestCol)
+            },
+            keyDown(e){
+                const item = this.$refs.item.find(i => i.selected);
+                if (item) {
+                    let closest;
+                    switch (e.code) {
+                        case "ArrowUp":{
+                                const itemsAbove = this.$refs.item.filter(i => i.position.y < item.position.y);
+                                if (itemsAbove.length > 0) {
+                                    closest = this.closest(itemsAbove, item);
+                                } else {
+                                    const lastRow = Math.max(...this.$refs.item.map(i => i.position.y))
+                                    closest = this.$refs.item.find(i => i.position.y === lastRow);
+                                }
+                            
+                            break;
+                        }
+                        case "ArrowDown":{
+                                const itemsBellow = this.$refs.item.filter(i => i.position.y > item.position.y);
+                                if (itemsBellow.length > 0) {
+                                    closest = this.closest(itemsBellow, item);
+                                } else {
+                                    const firstRow = Math.min(...this.$refs.item.map(i => i.position.y))
+                                    closest = this.$refs.item.find(i => i.position.y === firstRow);
+                                }
+                            
+                            break;
+                        }
+                        case "ArrowLeft":{
+                                const itemsLeft = this.$refs.item.filter(i => i.position.x < item.position.x);
+                                if (itemsLeft.length > 0) {
+                                    closest = this.closest(itemsLeft, item);
+                                } else {
+                                    const lastCol = Math.max(...this.$refs.item.map(i => i.position.x))
+                                    closest = this.$refs.item.find(i => i.position.x === lastCol);
+                                }
+                            
+                            break;
+                        }
+                        case "ArrowRight":{
+                                const itemsRight = this.$refs.item.filter(i => i.position.x > item.position.x);
+                                
+                                if (itemsRight.length > 0) {
+                                    closest = this.closest(itemsRight, item);
+                                } else {
+                                    const firstCol = Math.min(...this.$refs.item.map(i => i.position.x))
+                                    closest = this.$refs.item.find(i => i.position.x === firstCol);
+                                }
+                                
+                            
+                            break;
+                        }
+                    }
+                    if (closest) this.selectItem(closest.$el);
+                }
             }
-        }
+        },
+        mounted () {
+            this.$refs.inventory.focus();
+        },
     }
 </script>
 
@@ -53,4 +136,5 @@ import EventBus from '../utils/event-bus'
         height 450px
         border 1px solid rgba(0, 0, 0, 0.7)
         overflow-y scroll
+        outline none
 </style>
