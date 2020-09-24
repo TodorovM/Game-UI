@@ -1,7 +1,7 @@
 <template>
     <div class="details">
         <div class="item-icon">
-            <Item :itemData="item" />
+            <Item :itemData="item" v-if="item" />
         </div>
         <div class="item-details">
             <p><strong>Rarity:</strong> {{ item ? item.rarity : 'none' }} </p>

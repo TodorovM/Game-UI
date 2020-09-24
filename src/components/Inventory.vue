@@ -4,7 +4,8 @@
         :style="style" 
         @mouseover="hover" 
         @mousedown="select" 
-        @keydown="keyDown" 
+        @keydown="keyDown"
+        @dragover="dragOver"
         tabindex="0"
         ref="inventory"
     >
@@ -122,6 +123,9 @@ import EventBus from '../utils/event-bus'
                     }
                     if (closest) this.selectItem(closest.$el);
                 }
+            },
+            dragOver(e) {
+                console.log(e.target)
             }
         },
         mounted () {
