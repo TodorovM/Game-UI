@@ -6,6 +6,7 @@
         @mousedown="select" 
         @keydown="keyDown"
         @dragover="dragOver"
+        @dragend="dragEnd"
         tabindex="0"
         ref="inventory"
     >
@@ -21,6 +22,15 @@ import EventBus from '../utils/event-bus'
         name: 'Inventory',
         components: {
             Item,
+        },
+        data() {
+            return {
+                dragPosition: {
+                    x: 0,
+                    y: 0
+                },
+                draggedOver: null
+            }
         },
         props: {
             items: {
@@ -125,7 +135,19 @@ import EventBus from '../utils/event-bus'
                 }
             },
             dragOver(e) {
-                console.log(e.target)
+                this.draggedOver = this.$refs.item.find(i => i.$el === e.target.closest('.inventory-item'))
+                if (this.draggedOver) {
+                    this.dragPosition = {x: this.draggedOver.position.x, y: this.draggedOver.position.y}
+                } else {
+                    this.dragPosition = {x: Math.ceil(e.offsetX / 150), y: Math.ceil(e.offsetY / 150)}
+                }
+            },
+            dragEnd(e) {
+                const dragging = this.$refs.item.find(i => i.$el === e.target)
+                if (this.draggedOver) {
+                    this.draggedOver.position = dragging.position;
+                }
+                dragging.position = this.dragPosition;
             }
         },
         mounted () {
@@ -137,8 +159,8 @@ import EventBus from '../utils/event-bus'
 <style lang="stylus" scoped>
     .inventory
         display grid
-        height 450px
+        height 452px
         border 1px solid rgba(0, 0, 0, 0.7)
-        overflow-y scroll
+        overflow-y auto
         outline none
 </style>
