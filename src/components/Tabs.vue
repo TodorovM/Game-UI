@@ -1,11 +1,12 @@
 <template>
-    <div class="tabs">
-        <Tab v-for="(tab, index) in tabCategories" :key="index" :tab="tab"/>
+    <div class="tabs" @click="tabClick">
+        <Tab v-for="(tab, index) in tabCategories" :key="index" :tab="tab" ref="tab" />
     </div>
 </template>
 
 <script>
     import Tab from "./Tab"
+    import { mapActions } from "vuex";
 
     export default {
         name: 'Tabs',
@@ -22,6 +23,14 @@
                 type: Array,
             },
         },
+        methods: {
+            tabClick(e) {
+                this.$refs.tab.forEach(t => t.selected = false)
+                this.$refs.tab.find(t => t.$el === e.target).selected = true;
+                this.change(e.target.innerText.toLowerCase())
+            },
+            ...mapActions([ 'change' ]),
+        }
 
     }
 </script>

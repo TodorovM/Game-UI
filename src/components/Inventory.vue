@@ -10,7 +10,7 @@
         tabindex="0"
         ref="inventory"
     >
-        <Item v-for="item in items" :key="item.id" :itemData="item" ref="item"/>
+        <Item v-for="item in items" :key="item.id" :itemData="item" :itemPosition="itemPosition(item.id)" ref="item"/>
     </div>
 </template>
 
@@ -39,6 +39,10 @@ import EventBus from '../utils/event-bus'
             },
             size: {
                 type: Object
+            },
+            positions: {
+                type: Array,
+                default: () => {}
             }
         },
         computed: {
@@ -79,7 +83,6 @@ import EventBus from '../utils/event-bus'
                                     .reduce((acc, el) => {
                                         return Math.abs(el - orig.position.x) < Math.abs(acc - orig.position.x) ? el : acc;
                                     });
-                console.log(closestRow, closestCol)
                 return arr.find(i => i.position.y === closestRow && i.position.x === closestCol)
             },
             keyDown(e){
@@ -134,7 +137,6 @@ import EventBus from '../utils/event-bus'
                             break;
                         }
                     }
-                    console.log(closest)
                     if (closest) this.selectItem(closest.$el);
                 }
             },
@@ -152,6 +154,9 @@ import EventBus from '../utils/event-bus'
                     this.draggedOver.position = dragging.position;
                 }
                 dragging.position = this.dragPosition;
+            },
+            itemPosition(id) {
+                return this.positions.find(r => r.itemid === id)
             }
         },
         mounted () {

@@ -4,7 +4,7 @@
     <div class="container column">
       <Tabs :tabs="categories" />
       <div class="container">
-        <Inventory :items='items' :size="size" />
+        <Inventory :items='items' :positions="itemPositions" :size="size" />
         <Details/>
       </div>
     </div>
@@ -33,15 +33,15 @@ export default {
   },
   data() {
     return {
-      items: [],
       categories: [],
-      size: {},
       dark: false
     }
   },
   computed: {
     ...mapState({ 
-      data: state => state.displayedItems
+      items: state => state.displayedItems,
+      size: state => state.size,
+      itemPositions: state => state.itemPositions
     }),
   },
   methods: {
@@ -51,18 +51,10 @@ export default {
     EventBus.$on('theme_switched', e => {
       this.dark = e;
     })
-    this.categories = this.data.inventoryitems
+    this.categories = this.items
                       .map(el => el.type)
                       .filter((el, index, self) => self.indexOf(el) === index)
-    this.size = {
-      width: this.data.inventoryview.width,
-      height: this.data.inventoryview.height
-    }
-    this.items = this.data.inventoryitems.reduce((acc, el) => {
-      const item = this.data.inventoryview.layout.find(r => r.itemid === el.id)
-      acc.push({ ...item, ...el });
-      return acc;
-    }, [])
+    
   },
 }
 </script>

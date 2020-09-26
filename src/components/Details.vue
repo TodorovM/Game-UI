@@ -1,7 +1,7 @@
 <template>
     <div :class="['details', {dark: dark}]">
         <div class="item-icon">
-            <Item :itemData="item" v-if="item" />
+            <Item :itemData="item" :itemPosition="position" v-if="item" />
         </div>
         <div class="item-details">
             <p><strong>Rarity:</strong> {{ item ? item.rarity : 'none' }} </p>
@@ -21,6 +21,10 @@ import Item from './Item'
         data() {
             return {
                 item: null,
+                position: {
+                    positionX: 'auto',
+                    positionY: 'auto'
+                },
                 dark: false
             }
         },
@@ -43,7 +47,7 @@ import Item from './Item'
 <style lang="stylus" scoped>
     .details
         min-width 150px
-        max-width 200px
+        width 200px
         border 1px solid rgba(0, 0, 0, 0.7)
         display flex
         flex-direction column

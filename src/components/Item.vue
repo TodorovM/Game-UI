@@ -17,8 +17,8 @@
             return {
                 selected: false,
                 position: {
-                    x: this.itemData.positionX,
-                    y: this.itemData.positionY
+                    x: this.itemPosition.positionX,
+                    y: this.itemPosition.positionY
                 }
             }
         },
@@ -26,6 +26,9 @@
             itemData: {
                 type: Object
             },
+            itemPosition: {
+                type: Object
+            }
         },
         computed: {
             style() {
@@ -53,6 +56,7 @@
         scroll-snap-align start
         &:hover
             animation pulse 1s linear infinite
+            cursor move
         &.light .item-id
             color black
         &.selected

@@ -1,5 +1,5 @@
 <template>
-    <div :class="['tab', tab === 'All' ? 'selected' : ' ' ]">
+    <div :class="['tab',{selected: selected} ]">
         {{ tab.toUpperCase() }}
     </div>
 </template>
@@ -7,6 +7,11 @@
 <script>
     export default {
         name: "Tab",
+        data() {
+            return {
+                selected: false
+            }
+        },
         props: {
             tab: {
                 type: String
