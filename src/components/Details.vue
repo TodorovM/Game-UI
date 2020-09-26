@@ -1,5 +1,5 @@
 <template>
-    <div class="details">
+    <div :class="['details', {dark: dark}]">
         <div class="item-icon">
             <Item :itemData="item" v-if="item" />
         </div>
@@ -20,7 +20,8 @@ import Item from './Item'
         },
         data() {
             return {
-                item: null
+                item: null,
+                dark: false
             }
         },
         methods: {
@@ -32,19 +33,26 @@ import Item from './Item'
             EventBus.$on('item_hovered', (e) => {
                 this.fillData(e)
             });
+            EventBus.$on('theme_switched', e => {
+                this.dark = e;
+            })
         },
     }
 </script>
 
 <style lang="stylus" scoped>
     .details
-        width 200px
+        min-width 150px
+        max-width 200px
         border 1px solid rgba(0, 0, 0, 0.7)
         display flex
         flex-direction column
         align-items center
         padding 20px 10px
+        &.dark
+            border-color rgba(255, 255, 255, 0.6)
         .item-icon
             flex-basis 70%
+            
         
 </style>

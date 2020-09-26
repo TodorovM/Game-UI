@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{dark: dark}">
+    <ThemeSwitch />
     <div class="container column">
       <Tabs :tabs="categories" />
       <div class="container">
@@ -15,9 +16,10 @@
 import { mapState, mapActions } from "vuex";
 import Inventory from './components/Inventory'
 import Details from './components/Details'
-import Log from "./components/Log";
+import Log from './components/Log';
 import Tabs from './components/Tabs'
-// import EventBus from './utils/event-bus'
+import ThemeSwitch from './components/ThemeSwitch'
+import EventBus from './utils/event-bus'
 
 export default {
 
@@ -26,24 +28,29 @@ export default {
     Inventory,
     Details,
     Log,
-    Tabs
+    Tabs,
+    ThemeSwitch
   },
   data() {
     return {
       items: [],
       categories: [],
-      size: {}
+      size: {},
+      dark: false
     }
   },
   computed: {
     ...mapState({ 
       data: state => state.displayedItems
-    })
+    }),
   },
   methods: {
-    ...mapActions([ 'setData' ])
+    ...mapActions([ 'setData' ]),
   },
   mounted () {
+    EventBus.$on('theme_switched', e => {
+      this.dark = e;
+    })
     this.categories = this.data.inventoryitems
                       .map(el => el.type)
                       .filter((el, index, self) => self.indexOf(el) === index)
@@ -78,9 +85,14 @@ export default {
   display flex
   justify-content space-between
   flex-direction column
+  &.dark
+    background-color #222
+    color white
   .container
     display flex
     margin 0 auto 
+    width 100%
+    justify-content center
     &.column
       flex-direction column
 </style>

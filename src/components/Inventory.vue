@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="inventory" 
+        :class="['inventory', {dark: dark}]" 
         :style="style" 
         @mouseover="hover" 
         @mousedown="select" 
@@ -29,7 +29,8 @@ import EventBus from '../utils/event-bus'
                     x: 0,
                     y: 0
                 },
-                draggedOver: null
+                draggedOver: null,
+                dark: false
             }
         },
         props: {
@@ -46,6 +47,7 @@ import EventBus from '../utils/event-bus'
                     gridTemplateColumns: `repeat(${this.size.width}, 150px)`,
                     gridTemplateRows: `repeat(${this.size.height}, 150px)`,
                     maxWidth: `${this.size.width * 150}px`
+                    
                 }
             }
         },
@@ -153,7 +155,9 @@ import EventBus from '../utils/event-bus'
             }
         },
         mounted () {
-            this.$refs.inventory.focus();
+            EventBus.$on('theme_switched', e => {
+                this.dark = e;
+            })
         },
     }
 </script>
@@ -161,8 +165,14 @@ import EventBus from '../utils/event-bus'
 <style lang="stylus" scoped>
     .inventory
         display grid
-        height 452px
+        width 80%
         border 1px solid rgba(0, 0, 0, 0.7)
-        overflow-y auto
+        overflow auto
         outline none
+        height 450px
+        scroll-snap-type both mandatory;
+        &.dark
+           border-color rgba(255, 255, 255, 0.6)
+        @media screen and (max-height 450px)
+            height 300px
 </style>

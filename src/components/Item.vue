@@ -50,6 +50,7 @@
         box-shadow inset 0 0 10px black
         display flex
         flex-direction column
+        scroll-snap-align start
         &:hover
             animation pulse 1s linear infinite
         &.light .item-id

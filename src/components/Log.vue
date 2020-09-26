@@ -25,14 +25,14 @@
 <style lang="stylus" scoped>
     .log
         max-width 900px
-        width 900px
+        width 100%
         height 200px
         padding 10px
         overflow-y scroll
         display flex
         flex-direction column-reverse
         text-align left
-        margin 10px auto
+        margin 0 auto
         background-color grey
         color white
 </style>
