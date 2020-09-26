@@ -57,15 +57,19 @@ import EventBus from '../utils/event-bus'
         },
         methods: {
             hover(e) {
-                const item = this.$refs.item.find(i => i.$el === e.target.closest('.inventory-item'));
+                let item;
+                if (this.$refs.item) item = this.$refs.item.find(i => i.$el === e.target.closest('.inventory-item'));
                 if (item) EventBus.$emit('item_hovered', item.itemData)
             },
             select(e){
                 this.selectItem(e.target.closest('.inventory-item'));
             },
             selectItem(inventoryItem) {
-                this.$refs.item.forEach(i => i.selected = false);
-                const item = this.$refs.item.find(i => i.$el === inventoryItem);
+                let item;
+                if (this.$refs.item) {
+                    this.$refs.item.forEach(i => i.selected = false);
+                    item = this.$refs.item.find(i => i.$el === inventoryItem);
+                }
                 if (item) {
                     item.selected = true;
                     EventBus.$emit('item_selected', { id: item.itemData.id, rarity: item.itemData.rarity })

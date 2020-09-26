@@ -18,6 +18,9 @@
             EventBus.$on('item_selected', e => {
                 this.logs.unshift(`Item <span style="color: ${e.rarity}" > <strong>${e.id}</strong> </span> selected in the inventory`)
             })
+            EventBus.$on('item_added', e => {
+                this.logs.unshift(`Item <span style="color: ${e.rarity}" > <strong>${e.id}</strong> </span> added to the inventory`)
+            })
         },
     }
 </script>

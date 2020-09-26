@@ -33,28 +33,33 @@ export default {
   },
   data() {
     return {
-      categories: [],
       dark: false
     }
   },
   computed: {
     ...mapState({ 
       items: state => state.displayedItems,
+      allItems: state => state.items,
       size: state => state.size,
-      itemPositions: state => state.itemPositions
+      itemPositions: state => state.itemPositions,
+      fetchedAll: state => state.fetchedAll,
+      categories: state => state.categories
     }),
   },
   methods: {
-    ...mapActions([ 'setData' ]),
+    ...mapActions([ 'getData', 'fillCategories' ]),
   },
   mounted () {
     EventBus.$on('theme_switched', e => {
       this.dark = e;
     })
-    this.categories = this.items
-                      .map(el => el.type)
-                      .filter((el, index, self) => self.indexOf(el) === index)
-    
+    this.fillCategories();
+    const interval = setInterval(() => {
+      this.getData();
+      if (!this.fetchedAll) {
+        EventBus.$emit('item_added', this.allItems[this.allItems.length - 1])
+      } else clearInterval(interval)
+    }, 2000)
   },
 }
 </script>
