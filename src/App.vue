@@ -53,7 +53,9 @@ export default {
     EventBus.$on('theme_switched', e => {
       this.dark = e;
     })
+
     this.fillCategories();
+    
     const interval = setInterval(() => {
       this.getData();
       if (!this.fetchedAll) {
