@@ -59,7 +59,7 @@ export default {
       if (!this.fetchedAll) {
         EventBus.$emit('item_added', this.allItems[this.allItems.length - 1])
       } else clearInterval(interval)
-    }, 2000)
+    }, 1000)
   },
 }
 </script>

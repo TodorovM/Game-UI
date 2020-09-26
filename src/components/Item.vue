@@ -54,6 +54,7 @@
         display flex
         flex-direction column
         scroll-snap-align start
+        overflow hidden
         &:hover
             animation pulse 1s linear infinite
             cursor move

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as data from '../assets/data.json'
+// import * as data from '../assets/data.json'
+import * as data from '../assets/bigData.json'
 
 Vue.use(Vuex)
 
@@ -28,9 +29,9 @@ export default new Vuex.Store({
       if (state.count < data.default.player.inventoryitems.length) {
         state.items.push(data.default.player.inventoryitems[state.count]);
         state.itemPositions.push(data.default.player.inventoryview.layout[state.count]);
+
         state.count++;
       } else {
-        console.log('enter')
         state.fetchedAll = true
       }
     },
