@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import * as data from '../assets/data.json'
-import * as data from '../assets/bigData.json'
+import * as data from '../assets/data.json'
+// import * as data from '../assets/bigData.json'
 
 Vue.use(Vuex)
 
